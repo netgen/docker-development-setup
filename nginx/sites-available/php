@@ -1,12 +1,12 @@
 server {
     #listen 127.0.0.1:443 ssl;
-    listen 127.0.0.1:80;
+    listen 0.0.0.0:80;
 
     server_name .php84 .php83 .php82 .php81 .php80 .php74 .php73 .php72 .php71 .php70 .php56;
 
-    set $_install_dir $host;
-    set $_php_socket unix:/var/run/php74-fpm.sock;
-    set $_php_version 74;
+    #set $_install_dir $host;
+    #set $_php_socket unix:/var/run/php74-fpm.sock;
+    #set $_php_version 74;
 
     if ($host ~ "^(.*)\.php(84|83|82|81|80|74|73|72|71|70|56)$") {
         set $_install_dir $1;
@@ -19,8 +19,7 @@ server {
 
     location ~ \.php$ {
         try_files $uri = 404;
-        #fastcgi_pass unix:/var/run/php/php$_php_version-fpm.sock;
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/run/php/php81-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_read_timeout 300;
@@ -30,11 +29,12 @@ server {
 
     location ~ ^/(status|ping)$ {
         access_log off;
-        allow 127.0.0.1;
+        #allow 127.0.0.1;
         deny all;
         include fastcgi.conf;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        # fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/run/php/php81-fpm.sock;
 	include fastcgi_params;
     }
 }

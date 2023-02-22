@@ -1,97 +1,18 @@
 version: '3'
 name: docker-development-setup
 services:
-  php56:
-    container_name: php56
+  devcontainer:
+    container_name: devcontainer
     build:
-      context: php/56
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php70:
-    build:
-      context: php/70
-    container_name: php70
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php71:
-    build:
-      context: php/71
-    container_name: php71
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php72:
-    build:
-      context: php/72
-    container_name: php72
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php73:
-    build:
-      context: php/73
-    container_name: php73
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php74:
-    build:
-      context: php/74
-    container_name: php74
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php80:
-    build:
-      context: php/80
-    container_name: php80
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php81:
-    build:
-      context: php/81
-    container_name: php81
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  php82:
-    build:
-      context: php/82
-    container_name: php82
-    volumes:
-      - "./websites:/var/www"
-      - "./php/php-fpm.conf:/usr/local/etc/php-fpm.conf"
-      - "./php/www.conf:/usr/local/etc/php-fpm.d/www.conf"
-
-  nginx:
-    container_name: nginx
-    image: nginx:1.23.3-alpine
-    volumes:
-      - "./nginx/nginx.conf:/etc/nginx/nginx.conf"
-      - "./nginx/conf.d:/etc/nginx/conf.d"
-      - "./nginx/sites-available:/etc/nginx/sites-enabled"
-      - "./websites:/var/www"
+      context: devcontainer/
     ports:
       - 80:80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/sites-available/php:/etc/nginx/sites-enabled/php
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - ./websites/:/var/www/
+    command: sleep inf
 
   mysql:
     container_name: mysql
