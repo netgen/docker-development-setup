@@ -27,5 +27,5 @@ s/^;date\.timezone =$/date.timezone = Europe\/Zagreb/;\
 s/^session\.gc_maxlifetime .*$/session.gc_maxlifetime = 86400/;\
 s/^memory_limit = .*$/memory_limit = 256M/;\
 /^;error_log = syslog$/a error_log = /var/log/php$(echo $v | tr -d .).error.log" "/etc/php/$v/fpm/php.ini"; done && mkdir /run/php
-RUN apt install -y nginx less vim libfcgi
+RUN apt install -y nginx less vim libfcgi python3-pip && pip install supervisor
 RUN rm -rf /etc/nginx/sites-enabled/default && rm -rf /etc/nginx/sites-available/default

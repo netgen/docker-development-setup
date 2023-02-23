@@ -12,7 +12,9 @@ services:
       - ./nginx/sites-available/php:/etc/nginx/sites-enabled/php
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./websites/:/var/www/
-    command: sleep inf
+      - ./devcontainer/supervisord.conf:/etc/supervisor/supervisord.conf:ro
+    command:
+      - /usr/local/bin/supervisord
 
   mysql:
     container_name: mysql
