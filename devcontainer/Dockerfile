@@ -21,7 +21,9 @@ s/^;pm\.status_path = \/status$/pm.status_path = \/status/;\
 s/^;ping\.path = \/ping$/ping.path = \/ping/;\
 s/^;ping\.response = pong$/ping.response = pong/;\
 s/php([[:digit:]])\.([[:digit:]])-fpm/php\1\2-fpm/' "/etc/php/$v/fpm/pool.d/www.conf" && \
-sed -E -i 's/php([[:digit:]])\.([[:digit:]])-fpm/php\1\2-fpm/' "/etc/php/$v/fpm/php-fpm.conf" && \
+sed -E -i '\
+s/php([[:digit:]])\.([[:digit:]])-fpm/php\1\2-fpm/;\
+s/^;daemonize = yes$/daemonize = no/' "/etc/php/$v/fpm/php-fpm.conf" && \
 sed -E -i "\
 s/^;date\.timezone =$/date.timezone = Europe\/Zagreb/;\
 s/^session\.gc_maxlifetime .*$/session.gc_maxlifetime = 86400/;\
