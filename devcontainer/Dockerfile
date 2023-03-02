@@ -1,5 +1,8 @@
 FROM ubuntu:jammy-20230126
 
+ARG UID
+ARG GID
+
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Zagreb
 
@@ -38,3 +41,4 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
     php composer-setup.php --version=2.5.4 --filename=composer2 --install-dir=/usr/local/bin && \
     rm composer-setup.php
 RUN npm install -g yarn n
+RUN usermod -u $UID www-data && groupmod -g $GID www-data
