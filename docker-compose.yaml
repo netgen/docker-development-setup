@@ -7,12 +7,16 @@ services:
       context: devcontainer/
     ports:
       - 80:80
+      - 443:443
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/sites-available/php:/etc/nginx/sites-enabled/php
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ./websites/:/var/www/
       - ./devcontainer/supervisord.conf:/etc/supervisor/supervisord.conf:ro
+      - ./ssl/server.crt:/etc/nginx/server.crt
+      - ./ssl/server.key:/etc/nginx/server.key
+      - ./ssl/root.crt:/usr/local/share/ca-certificates/root.crt
     command:
       - /usr/local/bin/supervisord
 
