@@ -15,7 +15,7 @@ RUN apt update && \
         curl && \
     add-apt-repository -y ppa:ondrej/php && \
     add-apt-repository -y ppa:ondrej/nginx && \
-    bash -c "apt install -y --no-install-recommends php{5.6,7.0,7.1,7.2,7.3,7.4,8.0,8.1,8.2}-{bcmath,curl,exif,fpm,gd,iconv,imagick,intl,mbstring,memcached,mysqli,opcache,redis,sockets,sqlite3,xml,xsl,zip} php-sodium"
+    bash -c "apt install -y --no-install-recommends php{5.6,7.0,7.1,7.2,7.3,7.4,8.0,8.1,8.2}-{bcmath,curl,exif,fpm,gd,iconv,imagick,intl,mbstring,memcached,mysqli,opcache,redis,sockets,sqlite3,xdebug,xml,xsl,zip} php-sodium"
 RUN for v in '5.6' '7.0' '7.1' '7.2' '7.3' '7.4' '8.0' '8.1' '8.2'; do \
 sed -E -i '\
 s/^pm = dynamic$/pm = ondemand/;\

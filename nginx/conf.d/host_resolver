@@ -13,7 +13,7 @@ set $_front_controller ${_front_controller_name}.php;
 if ($host ~ "^(.*\.)?(.*)\.(.*)\.php([0-9]*)\..*$") {
     set $_install_dir $2;
     set $_environment $3;
-    set $_php_socket unix:/var/run/php$4-fpm.sock;
+    set $_php_socket unix:/run/php/php$4-fpm.sock;
 }
 
 # Symfony >=4
