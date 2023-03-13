@@ -25,7 +25,7 @@ services:
     container_name: mysql
     image: mysql:8.0.32-debian
     volumes:
-      - mysql-data:/var/lib/mysq/
+      - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
 
