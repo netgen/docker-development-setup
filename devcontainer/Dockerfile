@@ -12,6 +12,12 @@ RUN apt update && \
         imagemagick \
         gpg-agent \
         npm \
+        git \
+        wget \
+        less \
+        vim \
+        libfcgi \
+        python3-pip \
         curl && \
     add-apt-repository -y ppa:ondrej/php && \
     add-apt-repository -y ppa:ondrej/nginx && \
@@ -34,11 +40,11 @@ s/^;date\.timezone =$/date.timezone = Europe\/Zagreb/;\
 s/^session\.gc_maxlifetime .*$/session.gc_maxlifetime = 86400/;\
 s/^memory_limit = .*$/memory_limit = 256M/;\
 /^;error_log = syslog$/a error_log = /var/log/php$(echo $v | tr -d .).error.log" "/etc/php/$v/fpm/php.ini"; done && mkdir /run/php
-RUN apt install -y nginx less vim libfcgi python3-pip && pip install supervisor
-RUN rm -rf /etc/nginx/sites-enabled/default && rm -rf /etc/nginx/sites-available/default
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
     php composer-setup.php --version=1.10.26 --filename=composer1 --install-dir=/usr/local/bin && \
     php composer-setup.php --version=2.5.4 --filename=composer2 --install-dir=/usr/local/bin && \
     rm composer-setup.php
+RUN apt install -y --no-install-recommends nginx && rm -rf /etc/nginx/sites-enabled/default && rm -rf /etc/nginx/sites-available/default
 RUN npm install -g yarn n
+RUN pip install supervisor
 RUN usermod -u $UID www-data && groupmod -g $GID www-data
