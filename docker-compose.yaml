@@ -3,6 +3,7 @@ name: docker-development-setup
 services:
   devcontainer:
     container_name: devcontainer
+    hostname: devcontainer
     build:
       context: devcontainer/
     ports:
