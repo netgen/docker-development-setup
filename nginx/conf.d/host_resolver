@@ -1,6 +1,6 @@
 # Default values
 set $_install_dir _invalid_host_format;
-set $_base_path /var/www;
+set $_base_path /private/var/www;
 set $_php_socket unix:/var/run/php74-fpm.sock;
 set $_environment dev;
 

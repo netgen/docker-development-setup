@@ -1,6 +1,6 @@
 server {
-    listen 127.0.0.1:443 ssl;
-    listen 127.0.0.1:80;
+    listen 0.0.0.0:443 ssl;
+    listen 0.0.0.0:80;
 
     server_name .ez;
 
@@ -10,8 +10,8 @@ server {
     client_max_body_size 48m;
     fastcgi_read_timeout 180s;
 
-    access_log /opt/local/var/log/nginx/access.ez.$_install_dir.log main;
-    error_log /opt/local/var/log/nginx/error.ez.log notice;
+    access_log /var/log/nginx/access.ez.$_install_dir.log main;
+    error_log /var/log/nginx/error.ez.log notice;
 
     # Additional Assetic rules for eZ Publish 5.1 / 2013.4 and higher.
     ## Don't forget to run php app/console assetic:dump --env=prod
