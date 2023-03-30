@@ -47,4 +47,3 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN apt install -y --no-install-recommends nginx && rm -rf /etc/nginx/sites-enabled/default && rm -rf /etc/nginx/sites-available/default
 RUN npm install -g yarn n
 RUN pip install supervisor
-RUN usermod -u $UID www-data --home /home/www-data && groupmod -g $GID www-data
