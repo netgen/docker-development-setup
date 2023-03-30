@@ -47,3 +47,4 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 RUN apt install -y --no-install-recommends nginx && rm -rf /etc/nginx/sites-enabled/default && rm -rf /etc/nginx/sites-available/default
 RUN npm install -g yarn n
 RUN pip install supervisor
+RUN wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh && bash install.sh && rm install.sh
