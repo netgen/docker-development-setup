@@ -22,6 +22,9 @@ services:
       - ./ssl/root.crt:/usr/local/share/ca-certificates/root.crt
     command:
       - /usr/local/bin/supervisord
+    networks:
+      - mysql-network
+      - redis-network
 
   mysql:
     container_name: mysql
@@ -30,10 +33,18 @@ services:
       - mysql-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
+    networks:
+      - mysql-network
 
   redis:
     image: redis:7.0.9-alpine3.17
     container_name: redis
+    networks:
+      - redis-network
+
+networks:
+  mysql-network:
+  redis-network:
 
 volumes:
   mysql-data:

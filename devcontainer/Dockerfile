@@ -1,8 +1,5 @@
 FROM ubuntu:jammy-20230126
 
-ARG UID
-ARG GID
-
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Zagreb
 
