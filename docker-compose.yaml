@@ -42,6 +42,21 @@ services:
     networks:
       - redis-network
 
+  cloudbeaver:
+    container_name: cloudbeaver
+    image: dbeaver/cloudbeaver:23.0.4
+    networks:
+      - mysql-network
+    ports:
+      # TEMPORARY HACK
+      # this allows access through `http://localhost:8080/`
+      # the idea is to refactor this to be accessed through nginx
+      # remove port forwarding here, add a corresponding nginx site config
+      - 8080:8978
+    restart: unless-stopped
+    volumes:
+      - cloudbeaver-data:/opt/cloudbeaver/workspace
+
 networks:
   mysql-network:
   redis-network:
@@ -49,3 +64,5 @@ networks:
 volumes:
   mysql-data:
     name: mysql-data
+  cloudbeaver-data:
+    name: cloudbeaver-data
