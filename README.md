@@ -42,6 +42,27 @@ Useful aliases are in `aliases.sh`. Source them in your bashrc/zshrc.
 
 Before running, make sure to generate the TLS certificates and store them in a `/private/ssl` directory. The instructions are provided [here](https://docs.netgen.io/projects/lds/en/latest/ubuntu/ssl.html).
 
+### DB Managment
+
+This project comes with a DB Management tool called Cloudbeaver, which is basically a DBeaver distribution made for running in a Docker container. To use, to the following:
+
+1. Start the container
+2. (At the moment, subject to change (hopefully)) Visit http://localhost:8080/
+3. Register with a chosen username and password
+4. Add a MySQL connection:
+  - add new driver --> MySQL
+  - host: `mysql`
+  - port: 3306
+  - connection name: arbitrary
+  - username: `root` by default
+  - user password: `admin` by default
+  - DRIVER PROPERTIES --> allowPublicKeyRetrieval: true
+4. Test the connection. It should be green
+5. CREATE
+
+Now, you may click the logo in the upper left corner and proceed with the login.
+Optionally, check `Save credentials` if you're lazy and care not for security.
+
 ## Architecture
 
 This project implements a common web development practice of having a development Docker container with everything preinstalled.
@@ -71,5 +92,4 @@ NVM stores node versions in `/root/.nvm/.cache`. It may be worthwhile to store t
 
 - write guides for migration from local-development-setup to docker-development-setup
 - a local mail client
-- a database client
 - (as is always) thorough testing
