@@ -15,6 +15,9 @@ if ($host ~ "^(.*\.)?(.*)\.(.*)\.php([0-9]*)\..*$") {
     set $_environment $3;
     set $_php_socket unix:/run/php/php$4-fpm.sock;
 }
+if ($host ~ "^(.*\.)?(.*)\.node$") {
+    set $_install_dir $2;
+}
 
 # Symfony >=4
 if (!-e $_base_path/$_install_dir/$_public_dir) {
