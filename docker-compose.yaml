@@ -1,4 +1,3 @@
-version: '3'
 name: docker-development-setup
 services:
   devcontainer:
@@ -14,22 +13,28 @@ services:
       - ./nginx/sites-available/php:/etc/nginx/sites-enabled/php
       - ./nginx/sites-available/sf:/etc/nginx/sites-enabled/sf
       - ./nginx/sites-available/ez:/etc/nginx/sites-enabled/ez
+      - ./nginx/sites-available/node:/etc/nginx/sites-enabled/node
       - ./nginx/conf.d/:/etc/nginx/conf.d/
-      - /private/var/www/:/private/var/www/
+      - ./websites/:/private/var/www/
       - ./devcontainer/supervisord.conf:/etc/supervisor/supervisord.conf:ro
-      - ./ssl/server.crt:/etc/nginx/server.crt
-      - ./ssl/server.key:/etc/nginx/server.key
+      - ./ssl/:/etc/nginx/ssl/
       - ./ssl/root.crt:/usr/local/share/ca-certificates/root.crt
+      - ~/nvm-node/:/root/.nvm/versions/node/
+      - ~/.ssh/id_rsa:/root/.ssh/id_rsa
+      - ~/.config/composer/:/root/.config/composer/
+      - ./shell/aliases.sh:/root/.bash_aliases
     command:
       - /usr/local/bin/supervisord
     restart: unless-stopped
     networks:
       - mysql-network
       - redis-network
+      - solr-network
+      - mailpit-network
 
   mysql:
     container_name: mysql
-    image: mysql:8.0.32-debian
+    image: mysql:8.0.40
     volumes:
       - mysql-data:/var/lib/mysql
     environment:
@@ -37,6 +42,19 @@ services:
     restart: unless-stopped
     networks:
       - mysql-network
+    ports:
+      - 3306:3306
+
+  solr:
+    container_name: solr
+    image: solr:8.11.4
+    restart: unless-stopped
+    volumes:
+      - solr-data:/var/solr
+    networks:
+      - solr-network
+    ports:
+      - 8983:8983
 
   redis:
     image: redis:7.0.9-alpine3.17
@@ -45,27 +63,23 @@ services:
     networks:
       - redis-network
 
-  cloudbeaver:
-    container_name: cloudbeaver
-    image: dbeaver/cloudbeaver:23.0.4
-    networks:
-      - mysql-network
-    ports:
-      # TEMPORARY HACK
-      # this allows access through `http://localhost:8080/`
-      # the idea is to refactor this to be accessed through nginx
-      # remove port forwarding here, add a corresponding nginx site config
-      - 8080:8978
+  mailpit:
+    image: axllent/mailpit
+    container_name: mailpit
     restart: unless-stopped
-    volumes:
-      - cloudbeaver-data:/opt/cloudbeaver/workspace
+    networks:
+      - mailpit-network
+    ports:
+      - 8025:8025
 
 networks:
   mysql-network:
   redis-network:
+  solr-network:
+  mailpit-network:
 
 volumes:
   mysql-data:
     name: mysql-data
-  cloudbeaver-data:
-    name: cloudbeaver-data
+  solr-data:
+    name: solr-data
