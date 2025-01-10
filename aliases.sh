@@ -26,21 +26,27 @@ for i in 56 70 71 72 73 74 81 82; do
 done
 
 dep() {
-    ddproject bash -ic "dep $@";
+    local args=("$@");
+    ddproject bash -ic "echo $args";
 }
 
 nvm() {
-    ddproject bash -ic "nvm $@";
+    local args=("$@");
+    ddproject bash -ic "nvm $args";
 }
 yarn() {
-    ddproject bash -ic "nvm use && yarn $@";
+    local args=("$@");
+    ddproject bash -ic "nvm use && yarn $args";
 }
 pnpm() {
-    ddproject bash -ic "nvm use && pnpm $@";
+    local args=("$@");
+    ddproject bash -ic "nvm use && pnpm $args";
 }
 grunt() {
-    ddproject bash -ic "nvm use && grunt $@";
+    local args=("$@");
+    ddproject bash -ic "nvm use && grunt $args";
 }
 npm() {
-    ddproject bash -ic "nvm use && npm $@";
+    local args=("$@");
+    ddproject bash -ic "nvm use && npm $args";
 }
