@@ -26,6 +26,11 @@ Bundled:
 - mysql 8.0.32
 - redis 7.0.9
 
+## dnsmasq
+
+Follow instructions from LDS dnsmasq setup
+- MacOS - https://docs.netgen.io/projects/lds/en/latest/macos/dnsmasq.html
+- Linux - https://docs.netgen.io/projects/lds/en/latest/ubuntu/dnsmasq.html
 
 ## Usage
 
