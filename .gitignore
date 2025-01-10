@@ -1,1 +1,6 @@
-ssl/
+*.crt
+*.key
+*.csr
+*.srl
+ssl/password.txt
+websites/*
