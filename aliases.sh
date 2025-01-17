@@ -27,7 +27,16 @@ done
 
 dep() {
     local args=("$@");
-    ddproject bash -ic "echo $args";
+    ddproject bash -ic "dep $args";
+}
+
+dmake() {
+    local args=("$@");
+    ddproject bash -ic "make $args";
+}
+dgit() {
+    local args=("$@");
+    ddproject bash -ic "git $args";
 }
 
 nvm() {
