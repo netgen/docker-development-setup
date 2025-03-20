@@ -24,3 +24,6 @@ alias console74="php7.4 bin/console"
 alias console80="php8.0 bin/console"
 alias console81="php8.1 bin/console"
 alias console82="php8.2 bin/console"
+
+# fixes
+alias ssh-fix="eval \"$(ssh-agent -s)\" && ssh-add"
