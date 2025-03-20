@@ -23,78 +23,89 @@ Bundled:
     - xsl
     - zip
 - Nginx 1.22.1
-- mysql 8.0.32
+- mysql 8.0.40
 - redis 7.0.9
+- mailpit
+- Solr 8.11.3
 
-## dnsmasq
+## Local machine preparation
 
-Follow instructions from LDS dnsmasq setup
-- MacOS - https://docs.netgen.io/projects/lds/en/latest/macos/dnsmasq.html
-- Linux - https://docs.netgen.io/projects/lds/en/latest/ubuntu/dnsmasq.html
+### dnsmasq
+
+You will need dnsmasq, so follow the LDS instructions to install and configure it.
+- MacOS - https://docs.netgen.io/projects/lds/en/latest/macos/dnsmasq.html#install
+- Linux - https://docs.netgen.io/projects/lds/en/latest/ubuntu/dnsmasq.html#install
+
+### SSL
+
+Before running, make sure to generate the TLS certificates and store them in the `ssl` directory in this repository.
+You can follow the LDS instructions for that with the notes:
+- use this repository's `ssl` directory instead of `~/ssl` in the given commands
+- the `root.conf` and `server.conf` files are already provided in the `ssl` directory
+
+- MacOs - https://docs.netgen.io/projects/lds/en/latest/macos/ssl.html
+- Linux - https://docs.netgen.io/projects/lds/en/latest/ubuntu/ssl.html
+
+### aliases
+
+Useful aliases to use on your machine are in `aliases.sh`. Source them in your bashrc/zshrc, and check them out to know what you have available to use.
+
+For use within the docker, there's the `shell/aliases.sh` file that's mounted into the container's `.bash_aliases`. Adapt it to your needs.
+
+## Repository and projects location
+
+This repository can be cloned wherever you wish on your machine. All the projects have to be cloned directly inside the prepared `websites` folder in the repository - everything in there will be gitignored, so no worries about that. They cannot be symlinks to cloned projects elsewhere! But...
+
+For ease-of-access, you can always add a symlink to the `websites` folder elsewhere on your machine, e.g.
+```
+cd ~
+ln -s path/to/docker-development-setup/websites www
+```
 
 ## Usage
 
-Build with:
+Build from the root of this repository with:
 ```
 docker compose build
 ```
 
-Run with `docker compose up -d`. Everything starts automatically.
+It might take a while.
 
-Useful aliases are in `aliases.sh`. Source them in your bashrc/zshrc.
-
-### TLS
-
-Before running, make sure to generate the TLS certificates and store them in a `/private/ssl` directory. The instructions are provided [here](https://docs.netgen.io/projects/lds/en/latest/ubuntu/ssl.html).
-
-### DB Managment
-
-This project comes with a DB Management tool called Cloudbeaver, which is basically a DBeaver distribution made for running in a Docker container. To use, to the following:
-
-1. Start the container
-2. (At the moment, subject to change (hopefully)) Visit http://localhost:8080/
-3. Register with a chosen username and password
-4. Add a MySQL connection:
-  - add new driver --> MySQL
-  - host: `mysql`
-  - port: 3306
-  - connection name: arbitrary
-  - username: `root` by default
-  - user password: `admin` by default
-  - DRIVER PROPERTIES --> allowPublicKeyRetrieval: true
-4. Test the connection. It should be green
-5. CREATE
-
-Now, you may click the logo in the upper left corner and proceed with the login.
-Optionally, check `Save credentials` if you're lazy and care not for security.
+When it's done, run it with `docker compose up -d`. Everything starts automatically.
 
 ## Architecture
 
 This project implements a common web development practice of having a development Docker container with everything preinstalled.
 
-This repository should be cloned in `/private` on your device. All the projects *should* be cloned in `/private/var/www`.
-
 Main components are:
 - `devcontainer` - ubuntu container with nginx and all php versions bundled together
   - `supervisord` which starts all the daemon processes
-- `mysql` as a db
+- `mysql` as a db, exposed on port 3306 to access from tools like TablePlus
 - `redis` as a key value store
+- `solr` as a search engine, exposed on port 8983 to access the admin
+- `mailpit` as a local smtp, exposed on port 8025 to access the UI
 
-All commands related to PHP and JavaScript are imagined to be ran inside a development container. This means all invocations of composer, npm, yarn, nvm etc should *not* be invoked on the development machine but in the container (still typed in the terminal though).
+All commands related to PHP and JavaScript are imagined to be ran inside a development container. This means all invocations of composer, npm, yarn, nvm etc should *not* be invoked on the development machine but in the container (still typed in the terminal though). Some of the aliases include functions that execute the given commands inside the container, though, and can be used, as well.
 
-`devcontainer` container is supposed to be the single contact point between the host (your laptop device) and the setup. `devcontainer` communicates with other containers (`mysql`, `redis`) via a [Docker network](https://docs.docker.com/network/). At the moment there are two docker networks: `redis-network`, connecting the `devcontainer` and the `redis` container, and the `mysql-network` connecting the `devcontainer` and `mysql`.
+`devcontainer` container is supposed to be the single contact point between the host (your laptop device) and the setup. `devcontainer` communicates with other containers (`mysql`, `redis`) via a [Docker network](https://docs.docker.com/network/). All used networks can be seen in `docker-compose.yaml` under the `networks` key for each image and in root near the bottom of the file.
 
 To save a programmer from having to manage all the containers manually, this whole stack is deployed with `docker compose`. It manages the Docker network, Docker volumes for storage, Docker network and all the containers.
 
-
-# Possible issues and/or suggestions
-Writing from a container to a host (your laptop device) _may introduce troubles_ because the permissions will likely be `root:root` which you don't really want. The current suggestion is to have `rwsr-sr-s` permissions set on the parent folder of the docker-development-setup (at the moment that is `/private`).
-NVM stores node versions in `/root/.nvm/.cache`. It may be worthwhile to store this cache in a Docker volume persist the download cache between container restarts (e.g. shutting down your laptop device).
-
-
+## Possible issues and/or suggestions
+Writing from a container to a host (your laptop device) _may introduce troubles_ because the permissions will likely be `root:root` which you don't really want. **If that happens**, the current suggestion is to have `rwsr-sr-s` permissions set on the parent folder of the docker-development-setup (wherever you cloned it).
 
 ## Future work
 
 - write guides for migration from local-development-setup to docker-development-setup
-- a local mail client
+- expose Solr core configurations on the local machine
+- add Elasticsearch
+- add HAProxy
+- vite CORS issues when watching files
+- nginx access.log permission issues
+- in general test logs
+- macOS speed test
+- make sure everything that should/could be persisted is persisted between builds
+  - git config
+  - ssh known hosts
+  - global composer
 - (as is always) thorough testing
