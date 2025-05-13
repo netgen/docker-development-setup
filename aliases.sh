@@ -27,7 +27,7 @@ done
 
 dep() {
     local args=("$@");
-    ddproject bash -ic "dep $args";
+    ddproject bash -ic "nvm use && dep $args";
 }
 
 dmake() {
@@ -36,7 +36,7 @@ dmake() {
 }
 dgit() {
     local args=("$@");
-    ddproject bash -ic "git $args";
+    ddproject bash -ic "nvm use && git $args";
 }
 
 nvm() {
