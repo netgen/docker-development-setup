@@ -8,6 +8,7 @@ RUN apt update && \
     software-properties-common \
     imagemagick \
     gpg-agent \
+    bash-completion \
     npm \
     git \
     wget \
