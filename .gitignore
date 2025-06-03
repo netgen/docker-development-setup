@@ -2,5 +2,6 @@
 *.key
 *.csr
 *.srl
+*.pem
 ssl/password.txt
 websites/*
