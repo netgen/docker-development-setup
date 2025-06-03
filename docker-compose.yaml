@@ -21,8 +21,10 @@ services:
       - ./ssl/root.crt:/usr/local/share/ca-certificates/root.crt
       - ~/nvm-node/:/root/.nvm/versions/node/
       - ~/.ssh/id_rsa:/root/.ssh/id_rsa
+      - ~/.ssh/known_hosts:/root/.ssh/known_hosts
       - ~/.config/composer/:/root/.config/composer/
       - ./shell/aliases.sh:/root/.bash_aliases
+      - ~/.git-credentials:/root/.git-credentials
     command:
       - /usr/local/bin/supervisord
     restart: unless-stopped

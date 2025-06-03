@@ -92,3 +92,4 @@ RUN wget https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh && bash
 COPY nvm/default-packages /root/.nvm/default-packages
 RUN wget https://cs.symfony.com/download/php-cs-fixer-v3.phar -O php-cs-fixer && chmod a+x php-cs-fixer && mv php-cs-fixer /usr/local/bin/php-cs-fixer
 RUN wget https://get.symfony.com/cli/installer -O - | bash && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
+RUN git config --global credential.helper store

@@ -1,3 +1,5 @@
+source /etc/bash_completion
+
 alias composer701="php7.0 /usr/local/bin/composer1"
 alias composer702="php7.0 /usr/local/bin/composer2"
 alias composer711="php7.1 /usr/local/bin/composer1"
@@ -27,3 +29,27 @@ alias console82="php8.2 bin/console"
 
 # fixes
 alias ssh-fix="eval \"$(ssh-agent -s)\" && ssh-add"
+
+# git
+alias gclear="git reset --hard HEAD"
+alias ghconf="git config user.name amalija-ramljak && git config user.email amalija.ramljak@gmail.com"
+alias gst='git status'
+alias gl='git log'
+alias gls='git log --pretty="%C(Yellow)%<(12)%h %C(Green)%>(16)%cr%C(reset) %C(Cyan)%>(20)%an %x09 %C(reset)%s"'
+alias glsgrepi='gls | grep -i'
+alias gpl='git pull'
+alias gplr='git pull --rebase'
+alias gps='git push'
+alias gpsf='git push --force-with-lease'
+alias gpsn='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
+alias gr='git rebase'
+alias gbd='git branch -D'
+alias gc='git checkout'
+alias gchn='git checkout -b'
+alias gcout='bash -eo pipefail -c "v="$(set -eo pipefail; git branch --list | awk "{print \$NF}" | fzf --preview="git log --stat --color --abbrev-commit -5 {}" --height 70% --preview-window=right:75%)"; [ ! -z "\$v" ] && git checkout "\$v""'
+alias grpo='git remote prune origin'
+alias gcp='git cherry-pick'
+alias git-show="git update-index --no-skip-worktree"
+alias git-hide="git update-index --skip-worktree"
+
+alias git-cred="git config --global credential.helper store"
