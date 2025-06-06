@@ -24,6 +24,7 @@ services:
       - ~/.ssh/known_hosts:/root/.ssh/known_hosts
       - ~/.config/composer/:/root/.config/composer/
       - ./shell/aliases.sh:/root/.bash_aliases
+      - ~/.gitconfig:/root/.gitconfig
       - ~/.git-credentials:/root/.git-credentials
     command:
       - /usr/local/bin/supervisord
