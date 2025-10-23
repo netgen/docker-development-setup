@@ -53,3 +53,13 @@ alias git-show="git update-index --no-skip-worktree"
 alias git-hide="git update-index --skip-worktree"
 
 alias git-cred="git config --global credential.helper store"
+
+# socket
+port-socket() {
+    nohup socat UNIX-LISTEN:$(pwd -P)/node.sock,fork,reuseaddr,unlink-early,mode=777 TCP:127.0.0.1:$1 &
+    echo $! > socket.lock
+}
+
+remove-socket() {
+    kill -9 $(cat socket.lock) && rm socket.lock
+}
