@@ -31,9 +31,11 @@ services:
     restart: unless-stopped
     networks:
       - mysql-network
+      - pgsql-network
       - redis-network
       - solr-network
       - mailpit-network
+      - rabbit-network
 
   mysql:
     container_name: mysql
@@ -47,6 +49,28 @@ services:
       - mysql-network
     ports:
       - 3306:3306
+
+  pgsql:
+    container_name: pgsql
+    image: postgres:15.13
+    volumes:
+      - pgsql-data:/var/lib/pgsql
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: admin
+    restart: unless-stopped
+    networks:
+      - pgsql-network
+    ports:
+      - 5432:5432
+
+  rabbit:
+    container_name: rabbit
+    image: rabbitmq:3.13.7-management-alpine
+    ports:
+      - 8080:15672
+    networks:
+      - rabbit-network
 
   solr:
     container_name: solr
@@ -77,12 +101,16 @@ services:
 
 networks:
   mysql-network:
+  pgsql-network:
   redis-network:
   solr-network:
   mailpit-network:
+  rabbit-network:
 
 volumes:
   mysql-data:
     name: mysql-data
+  pgsql-data:
+    name: pgsql-data
   solr-data:
     name: solr-data
