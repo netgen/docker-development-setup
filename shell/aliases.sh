@@ -63,3 +63,30 @@ port-socket() {
 remove-socket() {
     kill -9 $(cat socket.lock) && rm socket.lock
 }
+
+# nvm
+# Auto-switch node version on directory change, based on the nearest .nvmrc.
+# This file is sourced from ~/.bashrc before nvm itself loads, so the body is
+# guarded and only does work at prompt time, once nvm is available.
+autoload_nvmrc() {
+    command -v nvm >/dev/null 2>&1 || return 0
+
+    local nvmrc_path
+    nvmrc_path="$(nvm_find_nvmrc)"
+
+    if [ -n "$nvmrc_path" ]; then
+        local nvmrc_node_version
+        nvmrc_node_version="$(nvm version "$(cat "$nvmrc_path")")"
+
+        if [ "$nvmrc_node_version" = "N/A" ]; then
+            nvm install
+        elif [ "$nvmrc_node_version" != "$(nvm version)" ]; then
+            nvm use --silent
+        fi
+    elif [ -n "$(PWD="$OLDPWD" nvm_find_nvmrc)" ] && [ "$(nvm version)" != "$(nvm version default)" ]; then
+        echo "Reverting to nvm default version"
+        nvm use default --silent
+    fi
+}
+
+PROMPT_COMMAND="autoload_nvmrc${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
