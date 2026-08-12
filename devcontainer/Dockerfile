@@ -24,6 +24,7 @@ RUN apt update && \
     python2 \
     python3-pip \
     curl \
+    gnupg2 \
     ca-certificates \
     fonts-liberation \
     libasound2 \
@@ -58,11 +59,21 @@ RUN apt update && \
     libxss1 \
     libxtst6 \
     lsb-release \
+    ubuntu-keyring \
     xdg-utils && \
     add-apt-repository -y ppa:ondrej/php && \
-    add-apt-repository -y ppa:ondrej/nginx && \
-    bash -c "apt install -y --no-install-recommends php{5.6,7.0,7.1,7.2,7.3,7.4,8.0,8.1,8.2}-{bcmath,curl,exif,fpm,gd,iconv,imagick,intl,mbstring,memcached,mysqli,pgsql,opcache,redis,sockets,sqlite3,xml,xsl,zip} php-sodium"
-RUN for v in '5.6' '7.0' '7.1' '7.2' '7.3' '7.4' '8.0' '8.1' '8.2'; do \
+    bash -c "apt install -y --no-install-recommends php{5.6,7.0,7.1,7.2,7.3,7.4,8.0,8.1,8.2,8.3,8.4,8.5}-{bcmath,curl,exif,fpm,gd,iconv,imagick,intl,mbstring,memcached,mysqli,pgsql,redis,sockets,sqlite3,xml,xsl,zip} php-sodium" && \
+    bash -c "apt install -y --no-install-recommends php{5.6,7.0,7.1,7.2,7.3,7.4,8.0,8.1,8.2,8.3,8.4}-opcache"
+
+RUN curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null && \
+    echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+    https://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+    | tee /etc/apt/sources.list.d/nginx.list && \
+    echo "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" \
+    | tee /etc/apt/preferences.d/99nginx
+
+RUN for v in '5.6' '7.0' '7.1' '7.2' '7.3' '7.4' '8.0' '8.1' '8.2' '8.3' '8.4' '8.5'; do \
     sed -E -i '\
     s/^pm = dynamic$/pm = ondemand/;\
     s/^pm\.max_children = 5$/pm.max_children = 6/;\
