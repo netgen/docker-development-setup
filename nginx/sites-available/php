@@ -22,7 +22,6 @@ server {
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_read_timeout 300;
-        include fastcgi.conf;
 	    include fastcgi_params;
     }
 
@@ -30,7 +29,7 @@ server {
         access_log off;
         #allow 127.0.0.1;
         # deny all;
-        include fastcgi.conf;
+        include fastcgi_params;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         fastcgi_pass unix:/run/php/php$_php_version-fpm.sock;
 	    include fastcgi_params;

@@ -15,6 +15,9 @@ alias composer802="php8.0 /usr/local/bin/composer2"
 alias composer811="php8.1 /usr/local/bin/composer1"
 alias composer812="php8.1 /usr/local/bin/composer2"
 alias composer822="php8.2 /usr/local/bin/composer2"
+alias composer832="php8.3 /usr/local/bin/composer2"
+alias composer842="php8.4 /usr/local/bin/composer2"
+alias composer852="php8.5 /usr/local/bin/composer2"
 
 # console
 alias console56="php5.6 bin/console"
@@ -26,6 +29,9 @@ alias console74="php7.4 bin/console"
 alias console80="php8.0 bin/console"
 alias console81="php8.1 bin/console"
 alias console82="php8.2 bin/console"
+alias console83="php8.3 bin/console"
+alias console84="php8.4 bin/console"
+alias console85="php8.5 bin/console"
 
 # fixes
 alias ssh-fix="eval \"$(ssh-agent -s)\" && ssh-add"
